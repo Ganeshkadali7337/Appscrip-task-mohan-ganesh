@@ -78,7 +78,7 @@ summary {
   margin-right: 15px;
 }
 
-summary::after {
+.footer-heading-name::after {
   content: "";
   width: 20px;
   height: 20px;
