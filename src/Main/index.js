@@ -19,6 +19,8 @@ const products = [
     category: "MEN",
     price: 100,
     liked: false,
+    occasion: "travelling",
+    fabric: "cotton",
   },
   {
     id: 2,
@@ -28,6 +30,8 @@ const products = [
     category: "KIDS",
     price: 200,
     liked: false,
+    occasion: "travelling",
+    fabric: "cotton",
   },
   {
     id: 3,
@@ -37,6 +41,8 @@ const products = [
     category: "MEN",
     price: 300,
     liked: false,
+    occasion: "travelling",
+    fabric: "cotton",
   },
   {
     id: 4,
@@ -46,6 +52,8 @@ const products = [
     category: "KIDS",
     price: 500,
     liked: false,
+    occasion: "travelling",
+    fabric: "cotton",
   },
   {
     id: 5,
@@ -55,6 +63,8 @@ const products = [
     category: "MEN",
     price: 400,
     liked: false,
+    occasion: "indoor",
+    fabric: "cotton",
   },
   {
     id: 6,
@@ -64,6 +74,8 @@ const products = [
     category: "WOMEN",
     price: 700,
     liked: false,
+    occasion: "indoor",
+    fabric: "leather",
   },
   {
     id: 7,
@@ -73,6 +85,8 @@ const products = [
     category: "MEN",
     price: 900,
     liked: false,
+    occasion: "travelling",
+    fabric: "leather",
   },
   {
     id: 8,
@@ -82,6 +96,8 @@ const products = [
     category: "MEN",
     price: 600,
     liked: false,
+    occasion: "indoor",
+    fabric: "leather",
   },
   {
     id: 9,
@@ -91,6 +107,8 @@ const products = [
     category: "MEN",
     price: 800,
     liked: false,
+    occasion: "indoor",
+    fabric: "cotton",
   },
 
   {
@@ -101,6 +119,8 @@ const products = [
     category: "WOMEN",
     price: 1000,
     liked: false,
+    occasion: "travelling",
+    fabric: "cotton",
   },
   {
     id: 11,
@@ -110,6 +130,8 @@ const products = [
     category: "KIDS",
     price: 1200,
     liked: false,
+    occasion: "travelling",
+    fabric: "leather",
   },
 
   {
@@ -120,6 +142,8 @@ const products = [
     category: "WOMEN",
     price: 1300,
     liked: false,
+    occasion: "travelling",
+    fabric: "leather",
   },
   {
     id: 13,
@@ -129,6 +153,8 @@ const products = [
     category: "WOMEN",
     price: 1500,
     liked: false,
+    occasion: "indoor",
+    fabric: "leather",
   },
 
   {
@@ -139,6 +165,8 @@ const products = [
     category: "KIDS",
     price: 1100,
     liked: false,
+    occasion: "travelling",
+    fabric: "cotton",
   },
   {
     id: 15,
@@ -148,6 +176,8 @@ const products = [
     category: "WOMEN",
     price: 500,
     liked: false,
+    occasion: "indoor",
+    fabric: "leather",
   },
   {
     id: 16,
@@ -157,6 +187,8 @@ const products = [
     category: "KIDS",
     price: 600,
     liked: false,
+    occasion: "indoor",
+    fabric: "leather",
   },
   {
     id: 17,
@@ -166,6 +198,8 @@ const products = [
     category: "KIDS",
     price: 800,
     liked: false,
+    occasion: "indoor",
+    fabric: "cotton",
   },
   {
     id: 18,
@@ -175,6 +209,8 @@ const products = [
     category: "WOMEN",
     price: 900,
     liked: false,
+    occasion: "travelling",
+    fabric: "leather",
   },
 ];
 
@@ -183,24 +219,38 @@ class Main extends Component {
     productsData: [],
     filterShow: false,
     category: [],
+    occations: [],
+    fabrics: [],
     price: "low",
     isCheckedMen: false,
     isCheckedWomen: false,
     isCheckedKids: false,
+    isCheckedTravelling: false,
+    isCheckedIndoor: false,
+    isCheckedCotton: false,
+    isCheckedLeather: false,
     liked: false,
     likedId: [],
   };
 
   getData = () => {
-    const { category, price } = this.state;
-    const data =
+    const { category, occations, fabrics, price } = this.state;
+    const categoryData =
       category.length === 0
         ? products
         : products.filter((each) => category.includes(each.category));
+    const occasionData =
+      occations.length === 0
+        ? categoryData
+        : categoryData.filter((each) => occations.includes(each.occasion));
+    const fabricData =
+      fabrics.length === 0
+        ? occasionData
+        : occasionData.filter((each) => fabrics.includes(each.fabric));
     const sortedProducts =
       price === "low"
-        ? data.sort((a, b) => a.price - b.price)
-        : data.sort((a, b) => b.price - a.price);
+        ? fabricData.sort((a, b) => a.price - b.price)
+        : fabricData.sort((a, b) => b.price - a.price);
     this.setState({ productsData: sortedProducts });
   };
 
@@ -267,6 +317,78 @@ class Main extends Component {
     }
   };
 
+  onClickTravelling = (e) => {
+    const checked = e.target.checked;
+    const { occations } = this.state;
+    if (checked) {
+      this.setState(
+        { occations: [...occations, "travelling"], isCheckedTravelling: true },
+        this.getData
+      );
+    } else {
+      const index = occations.indexOf("travelling");
+      occations.splice(index, 1);
+      this.setState(
+        { occations: [...occations], isCheckedTravelling: false },
+        this.getData
+      );
+    }
+  };
+
+  onClickIndoor = (e) => {
+    const checked = e.target.checked;
+    const { occations } = this.state;
+    if (checked) {
+      this.setState(
+        { occations: [...occations, "indoor"], isCheckedIndoor: true },
+        this.getData
+      );
+    } else {
+      const index = occations.indexOf("indoor");
+      occations.splice(index, 1);
+      this.setState(
+        { occations: [...occations], isCheckedIndoor: false },
+        this.getData
+      );
+    }
+  };
+
+  onClickCotton = (e) => {
+    const checked = e.target.checked;
+    const { fabrics } = this.state;
+    if (checked) {
+      this.setState(
+        { fabrics: [...fabrics, "cotton"], isCheckedCotton: true },
+        this.getData
+      );
+    } else {
+      const index = fabrics.indexOf("cotton");
+      fabrics.splice(index, 1);
+      this.setState(
+        { fabrics: [...fabrics], isCheckedCotton: false },
+        this.getData
+      );
+    }
+  };
+
+  onClickLeather = (e) => {
+    const checked = e.target.checked;
+    const { fabrics } = this.state;
+    if (checked) {
+      this.setState(
+        { fabrics: [...fabrics, "leather"], isCheckedLeather: true },
+        this.getData
+      );
+    } else {
+      const index = fabrics.indexOf("leather");
+      fabrics.splice(index, 1);
+      this.setState(
+        { fabrics: [...fabrics], isCheckedLeather: false },
+        this.getData
+      );
+    }
+  };
+
   changePrice = (value) => {
     this.setState({ price: value }, this.getData);
   };
@@ -283,10 +405,17 @@ class Main extends Component {
     const {
       productsData,
       filterShow,
+      category,
+      fabrics,
+      occations,
       price,
       isCheckedKids,
       isCheckedWomen,
       isCheckedMen,
+      isCheckedTravelling,
+      isCheckedIndoor,
+      isCheckedCotton,
+      isCheckedLeather,
     } = this.state;
     const productsCount = productsData.length;
     console.log(price);
@@ -326,36 +455,116 @@ class Main extends Component {
             {filterShow && (
               <div className="filters-list-container">
                 <div className="filter">
-                  <p className="filter-name">CATEGORY</p>
-                  <div className="checkbox-container">
+                  <details className="filter-details">
+                    <summary className="filters-heading-name">
+                      <div className="filter-details-content">
+                        <p className="filter-name">IDEAL FOR</p>
+                        <p className="filter-selected">
+                          {category.length !== 0
+                            ? `${category.length} Selected`
+                            : "All"}
+                        </p>
+                      </div>
+                    </summary>
                     <div className="check">
                       <input
+                        className="checkbox-el"
                         checked={isCheckedMen}
                         onChange={this.onClickMen}
                         id="men"
                         type="checkbox"
                       />
-                      <label htmlFor="men">MEN</label>
+                      <label htmlFor="men">Men</label>
                     </div>
                     <div className="check">
                       <input
+                        className="checkbox-el"
                         checked={isCheckedWomen}
                         onChange={this.onClickWomen}
                         id="women"
                         type="checkbox"
                       />
-                      <label htmlFor="women">WOMEN</label>
+                      <label htmlFor="women">Women</label>
                     </div>
                     <div className="check">
                       <input
+                        className="checkbox-el"
                         checked={isCheckedKids}
                         onChange={this.onClickKids}
                         id="kids"
                         type="checkbox"
                       />
-                      <label htmlFor="kids">BABY & KIDS</label>
+                      <label htmlFor="kids">Baby & Kids</label>
                     </div>
-                  </div>
+                  </details>
+                </div>
+                <div className="filter">
+                  <details className="filter-details">
+                    <summary className="filters-heading-name">
+                      <div className="filter-details-content">
+                        <p className="filter-name">OCCASION</p>
+                        <p className="filter-selected">
+                          {occations.length !== 0
+                            ? `${occations.length} Selected`
+                            : "All"}
+                        </p>
+                      </div>
+                    </summary>
+                    <div className="check">
+                      <input
+                        className="checkbox-el"
+                        checked={isCheckedTravelling}
+                        onChange={this.onClickTravelling}
+                        id="travelling"
+                        type="checkbox"
+                      />
+                      <label htmlFor="men">Travelling</label>
+                    </div>
+                    <div className="check">
+                      <input
+                        className="checkbox-el"
+                        checked={isCheckedIndoor}
+                        onChange={this.onClickIndoor}
+                        id="indoor"
+                        type="checkbox"
+                      />
+                      <label htmlFor="women">Indoor</label>
+                    </div>
+                  </details>
+                </div>
+                <div className="filter-last">
+                  <details className="filter-details">
+                    <summary className="filters-heading-name">
+                      <div className="filter-details-content">
+                        <p className="filter-name">FABRIC</p>
+                        <p className="filter-selected">
+                          {fabrics.length !== 0
+                            ? `${fabrics.length} Selected`
+                            : "All"}
+                        </p>
+                      </div>
+                    </summary>
+                    <div className="check">
+                      <input
+                        className="checkbox-el"
+                        checked={isCheckedCotton}
+                        onChange={this.onClickCotton}
+                        id="cotton"
+                        type="checkbox"
+                      />
+                      <label htmlFor="women">Cotton</label>
+                    </div>
+                    <div className="check">
+                      <input
+                        className="checkbox-el"
+                        checked={isCheckedLeather}
+                        onChange={this.onClickLeather}
+                        id="leather"
+                        type="checkbox"
+                      />
+                      <label htmlFor="kids">Leather</label>
+                    </div>
+                  </details>
                 </div>
               </div>
             )}
