@@ -21,6 +21,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "cotton",
+    recommended: true,
+    newestFirst: true,
+    popular: false,
   },
   {
     id: 2,
@@ -32,6 +35,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "cotton",
+    recommended: false,
+    newestFirst: false,
+    popular: true,
   },
   {
     id: 3,
@@ -43,6 +49,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "cotton",
+    recommended: true,
+    newestFirst: false,
+    popular: true,
   },
   {
     id: 4,
@@ -54,6 +63,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "cotton",
+    recommended: false,
+    newestFirst: true,
+    popular: true,
   },
   {
     id: 5,
@@ -65,6 +77,9 @@ const products = [
     liked: false,
     occasion: "indoor",
     fabric: "cotton",
+    recommended: true,
+    newestFirst: true,
+    popular: false,
   },
   {
     id: 6,
@@ -76,6 +91,9 @@ const products = [
     liked: false,
     occasion: "indoor",
     fabric: "leather",
+    recommended: false,
+    newestFirst: false,
+    popular: true,
   },
   {
     id: 7,
@@ -87,6 +105,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "leather",
+    recommended: true,
+    newestFirst: false,
+    popular: false,
   },
   {
     id: 8,
@@ -98,6 +119,9 @@ const products = [
     liked: false,
     occasion: "indoor",
     fabric: "leather",
+    recommended: true,
+    newestFirst: true,
+    popular: true,
   },
   {
     id: 9,
@@ -109,8 +133,10 @@ const products = [
     liked: false,
     occasion: "indoor",
     fabric: "cotton",
+    recommended: false,
+    newestFirst: false,
+    popular: true,
   },
-
   {
     id: 10,
     name: "PRODUCT NAME",
@@ -121,6 +147,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "cotton",
+    recommended: true,
+    newestFirst: true,
+    popular: true,
   },
   {
     id: 11,
@@ -132,8 +161,10 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "leather",
+    recommended: true,
+    newestFirst: false,
+    popular: false,
   },
-
   {
     id: 12,
     name: "PRODUCT NAME",
@@ -144,6 +175,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "leather",
+    recommended: true,
+    newestFirst: true,
+    popular: true,
   },
   {
     id: 13,
@@ -155,8 +189,10 @@ const products = [
     liked: false,
     occasion: "indoor",
     fabric: "leather",
+    recommended: false,
+    newestFirst: false,
+    popular: true,
   },
-
   {
     id: 14,
     name: "PRODUCT NAME",
@@ -167,6 +203,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "cotton",
+    recommended: true,
+    newestFirst: true,
+    popular: false,
   },
   {
     id: 15,
@@ -178,6 +217,9 @@ const products = [
     liked: false,
     occasion: "indoor",
     fabric: "leather",
+    recommended: true,
+    newestFirst: false,
+    popular: true,
   },
   {
     id: 16,
@@ -189,6 +231,9 @@ const products = [
     liked: false,
     occasion: "indoor",
     fabric: "leather",
+    recommended: false,
+    newestFirst: true,
+    popular: true,
   },
   {
     id: 17,
@@ -200,6 +245,9 @@ const products = [
     liked: false,
     occasion: "indoor",
     fabric: "cotton",
+    recommended: true,
+    newestFirst: false,
+    popular: true,
   },
   {
     id: 18,
@@ -211,6 +259,9 @@ const products = [
     liked: false,
     occasion: "travelling",
     fabric: "leather",
+    recommended: false,
+    newestFirst: true,
+    popular: false,
   },
 ];
 
@@ -221,7 +272,7 @@ class Main extends Component {
     category: [],
     occations: [],
     fabrics: [],
-    price: "low",
+    price: "recommended",
     isCheckedMen: false,
     isCheckedWomen: false,
     isCheckedKids: false,
@@ -247,10 +298,39 @@ class Main extends Component {
       fabrics.length === 0
         ? occasionData
         : occasionData.filter((each) => fabrics.includes(each.fabric));
-    const sortedProducts =
-      price === "low"
-        ? fabricData.sort((a, b) => a.price - b.price)
-        : fabricData.sort((a, b) => b.price - a.price);
+
+    let sortedProducts;
+
+    switch (price) {
+      case "recommended":
+        sortedProducts = fabricData.sort(
+          (a, b) => b.recommended - a.recommended
+        );
+        break;
+
+      case "newest":
+        sortedProducts = fabricData.sort(
+          (a, b) => b.newestFirst - a.newestFirst
+        );
+        break;
+
+      case "popular":
+        sortedProducts = fabricData.sort((a, b) => b.popular - a.popular);
+        break;
+
+      case "low":
+        sortedProducts = fabricData.sort((a, b) => a.price - b.price);
+        break;
+
+      case "high":
+        sortedProducts = fabricData.sort((a, b) => b.price - a.price);
+        break;
+
+      default:
+        sortedProducts = fabricData;
+    }
+    console.log(sortedProducts);
+
     this.setState({ productsData: sortedProducts });
   };
 
