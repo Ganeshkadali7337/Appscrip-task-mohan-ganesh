@@ -37,6 +37,9 @@ const ProductFiltersHeader = (props) => {
       </div>
       <div className="drop-down-container">
         <select value={value} onChange={onChangePrice} className="select-el">
+          <option value="recommended">RECOMMENDED</option>
+          <option value="newest">NEWEST FIRST</option>
+          <option value="popular">POPULAR</option>
           <option value="low">LOW TO HIGH</option>
           <option value="high">HIGH TO LOW</option>
         </select>
