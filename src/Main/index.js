@@ -299,35 +299,30 @@ class Main extends Component {
         ? occasionData
         : occasionData.filter((each) => fabrics.includes(each.fabric));
 
-    let sortedProducts;
+    let sortedProducts = [...fabricData];
 
     switch (price) {
       case "recommended":
-        sortedProducts = fabricData.sort(
-          (a, b) => b.recommended - a.recommended
-        );
+        sortedProducts.sort((a, b) => b.recommended - a.recommended);
         break;
 
       case "newest":
-        sortedProducts = fabricData.sort(
-          (a, b) => b.newestFirst - a.newestFirst
-        );
+        sortedProducts.sort((a, b) => b.newestFirst - a.newestFirst);
         break;
 
       case "popular":
-        sortedProducts = fabricData.sort((a, b) => b.popular - a.popular);
+        sortedProducts.sort((a, b) => b.popular - a.popular);
         break;
 
       case "low":
-        sortedProducts = fabricData.sort((a, b) => a.price - b.price);
+        sortedProducts.sort((a, b) => a.price - b.price);
         break;
 
       case "high":
-        sortedProducts = fabricData.sort((a, b) => b.price - a.price);
+        sortedProducts.sort((a, b) => b.price - a.price);
         break;
-
       default:
-        sortedProducts = fabricData;
+        console.log("invalid");
     }
     console.log(sortedProducts);
 
