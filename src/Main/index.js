@@ -10,7 +10,7 @@ import "./index.css";
 
 import ProductFiltersHeader from "../ProductsFlitersHeader";
 
-const products = [
+let products = [
   {
     id: 1,
     name: "PRODUCT NAME",
@@ -473,7 +473,8 @@ class Main extends Component {
     const updatedProducts = productsData.map((each) =>
       each.id === id ? { ...each, liked: !each.liked } : each
     );
-    this.setState({ productsData: updatedProducts });
+    products = updatedProducts;
+    this.setState({ productsData: updatedProducts }, this.getData);
   };
 
   render() {
